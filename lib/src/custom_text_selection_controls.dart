@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -23,7 +24,7 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
       Offset selectionMidpoint,
       List<TextSelectionPoint> endpoints,
       TextSelectionDelegate delegate,
-      ClipboardStatusNotifier? clipboardStatus,
+      ValueListenable<ClipboardStatus>? clipboardStatus,
       Offset? lastSecondaryTapDownPosition) {
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
     final TextSelectionPoint endTextSelectionPoint =
@@ -51,7 +52,7 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
       clipboardStatus: clipboardStatus,
       items: items,
       selectionText: selectionText,
-      handleCopy: () => handleCopy(delegate, clipboardStatus),
+      handleCopy: () => handleCopy(delegate),
       handleCut: () => handleCut(delegate),
       handlePaste: () => handlePaste(delegate),
       handleSelectAll: () => handleSelectAll(delegate),
@@ -86,7 +87,7 @@ class MyTextSelectionToolbar extends StatefulWidget {
 
   final Offset anchorAbove;
   final Offset anchorBelow;
-  final ClipboardStatusNotifier? clipboardStatus;
+  final  ValueListenable<ClipboardStatus>? clipboardStatus;
   final void Function()? handleCopy;
   final void Function()? handleCut;
   final void Function()? handlePaste;
@@ -110,7 +111,7 @@ class MyTextSelectionToolbarState extends State<MyTextSelectionToolbar> {
   void initState() {
     super.initState();
     widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
-    widget.clipboardStatus?.update();
+    // widget.clipboardStatus?.update();
   }
 
   @override
@@ -120,7 +121,7 @@ class MyTextSelectionToolbarState extends State<MyTextSelectionToolbar> {
       widget.clipboardStatus?.addListener(_onChangedClipboardStatus);
       oldWidget.clipboardStatus?.removeListener(_onChangedClipboardStatus);
     }
-    widget.clipboardStatus?.update();
+    // widget.clipboardStatus?.update();
   }
 
   @override
